@@ -20,11 +20,12 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @blog  = Blog.find params[:id]
+    @blog  = Blog.friendly.find params[:id]
   end
 
   def update
-    @blog  = Blog.find params[:id]
+    @blog.slug = nil
+    @blog  = Blog.friendly.find params[:id]
     if @blog.update blog_params
       redirect_to blog_path(@blog), notice: "Blog Successfully updated!"
     else
@@ -34,13 +35,13 @@ class BlogsController < ApplicationController
   end
 
   def destroy
-    @blog  = Blog.find params[:id]
+    @blog  = Blog.friendly.find params[:id]
     @blog.destroy
     redirect_to blogs_path
   end
 
   def show
-    @blog      = Blog.find params[:id]
+    @blog      = Blog.friendly.find params[:id]
     @comment   = Comment.new
     @like      = @blog.likes.find_by_user_id(current_user.id) if user_signed_in?
     @favourite = @blog.favourites.find_by_user_id(current_user.id) if user_signed_in?

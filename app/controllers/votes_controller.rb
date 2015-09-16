@@ -3,7 +3,7 @@ class VotesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    blog       = Blog.find params[:blog_id]
+    blog       = Blog.friendly.find params[:blog_id]
     vote       = Vote.new vote_params
     vote.user  = current_user
     vote.blog  = blog
@@ -15,7 +15,7 @@ class VotesController < ApplicationController
   end
 
   def update
-    blog       = Blog.find params[:blog_id]
+    blog       = Blog.friendly.find params[:blog_id]
     vote       = Vote.find params[:id]
     if !(can? :update, vote)
       redirect_to root_path, alert: "access denied"
@@ -30,7 +30,7 @@ class VotesController < ApplicationController
     vote = Vote.find params[:id]
     if can? :destroy, vote
       vote.destroy
-      blog = Blog.find params[:blog_id]
+      blog = Blog.friendly.find params[:blog_id]
       redirect_to blog, notice: "Vote removed!"
     else
       redirect_to root_path, alert: "access denied"

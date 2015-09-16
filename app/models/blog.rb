@@ -38,6 +38,9 @@ class Blog < ActiveRecord::Base
 
   before_save :capitalize_title
 
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
+
   #delegate :name, to: :category, prefix: true
   def category_name
     category.name

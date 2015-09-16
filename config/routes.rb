@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
-
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection

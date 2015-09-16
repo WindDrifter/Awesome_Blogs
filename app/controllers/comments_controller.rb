@@ -4,13 +4,13 @@ class CommentsController < ApplicationController
 
   def create
 
-    @blog             = Blog.find params[:blog_id]
+    @blog             = Blog.friendly.find params[:blog_id]
     # @comment        = @blog.comments.new comment_params
     @comment          = Comment.new comment_params
     @comment.blog     = @blog
     @comment.user     = current_user
       if @comment.save
-        CommentsMailer.notify_blog_owner(@comment).deliver_now
+        CommentsMailer.delay(run_at: 5.minutes.from_now).notify_blog_owner(@comment)
         redirect_to blog_path(@blog), notice: "Comment Created!"
       else
         flash[:alert] = "Comment wasn't created"
@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @blog = Blog.find params[:blog_id]
+    @blog = Blog.friendly.find params[:blog_id]
     @comment = Comment.find params[:id]
     @comment.destroy
     redirect_to blog_path(@blog), notice: "Comment deleted."
