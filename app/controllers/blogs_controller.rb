@@ -4,6 +4,8 @@ class BlogsController < ApplicationController
 
   before_action :authorize!, only: [:edit, :update, :destroy]
 
+  PER_PAGE = 10
+
   def new
     @blog = Blog.new # Blog.new(title: "hello")
   end
@@ -53,7 +55,7 @@ class BlogsController < ApplicationController
   end
 
   def index
-    @blogs = Blog.all
+    @blogs = Blog.page(params[:page]).per(PER_PAGE)
   end
 
 
