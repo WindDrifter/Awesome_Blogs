@@ -42,7 +42,7 @@ class BlogsController < ApplicationController
 
   def show
     @categories = Category.all
-    
+
     # @categories = @blog
     @blog       = Blog.friendly.find params[:id]
     @comment    = Comment.new

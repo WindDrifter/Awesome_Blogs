@@ -14,6 +14,12 @@ gem 'friendly_id'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+
+gem 'simple_form'
+
+gem "quiet_assets"
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use postgresql as the database for Active Record

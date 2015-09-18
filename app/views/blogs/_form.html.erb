@@ -1,30 +1,10 @@
 
-<% if @blog.errors.any? %>
-  <ul>
-    <% @blog.errors.full_messages.each do |blg| %>
-      <li><%= blg %></li>
-    <% end %>
-  </ul>
-<% end %>
-
-
-<%= form_for @blog do |blog| %>
+<%= simple_form_for (@blog || Blog.new) , html: {class: "form-horizontal"} do |f| %>
+  <%= f.association :category, include_blank: false %>
+  <%= f.input :title, hint: "don't put monkey" %>
+  <%= f.input :body, input_html: {placeholder: "Give more details here"} %>
+  <%= f.association :tags, as: :check_boxes %>
   <div class="form-group">
-    <%= blog.label :category_id %>
-    <%= blog.collection_select :category_id, Category.all, :id, :name, {}%>
-  </div>
-  <div class="form-group">
-    <%= blog.label :title %>
-    <%= blog.text_field :title %>
-  </div>
-  <div class="form-group">
-    <%= blog.label :body %>
-    <%= blog.text_field :body %>
-  </div>
-  <div class="form_group">
-    <%= blog.collection_check_boxes :tag_ids, Tag.all, :id, :name %>
-  </div>
-  <div class="form-group">
-    <%= blog.submit class: "btn btn-primary", data: {disable_with: "saving.."} %>
+    <%= f.submit class: "btn btn-primary", data: {disable_with: "saving.."} %>
   </div>
 <% end %>

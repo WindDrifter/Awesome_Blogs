@@ -12,6 +12,7 @@ class Blog < ActiveRecord::Base
 #             deleting the blog
 # :nullify -> will make comments_id field null in the database before deleting
 #             the blog
+
   has_many :comments, dependent: :destroy
 
   has_many :taggings, dependent: :destroy

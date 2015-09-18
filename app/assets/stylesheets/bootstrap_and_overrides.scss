@@ -7,3 +7,18 @@
 .navbar-inverse {
   border-radius: 0px !important;
 }
+
+.simple_form {
+  abbr {
+    border-bottom: 0;
+  }
+  .check_boxes {
+    .checkbox {
+      display: inline-block;
+      margin-right: 10px;
+      input {
+       margin-left: -14px;
+      }
+    }
+  }
+}

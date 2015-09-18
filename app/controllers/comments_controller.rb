@@ -3,7 +3,6 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-
     @blog             = Blog.friendly.find params[:blog_id]
     # @comment        = @blog.comments.new comment_params
     @comment          = Comment.new comment_params

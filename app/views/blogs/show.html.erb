@@ -20,11 +20,16 @@
     <% if can? :destroy, @blog %>
       <%= link_to "Delete", blog_path(@blog), method: :delete, data: {confirm: "Are you use you want to delete this post?"}, class: "btn btn-danger" %>
     <% end %>
+
     <% if user_signed_in? %>
       <% if current_user.liked_blog?(@blog) %>
-        <%= link_to fa_icon("thumbs-up"), blog_like_path(@blog, @like), class: "big-icon", title: "Un-Like", method: :delete %>
+        <%= link_to fa_icon("thumbs-up"),
+                    blog_like_path(@blog, @like),
+                    class: "big-icon", title: "Un-Like", method: :delete %>
       <% else %>
-        <%= link_to fa_icon("thumbs-o-up"), blog_likes_path(@blog), class: "big-icon", title: "Like", method: :post %>
+        <%= link_to fa_icon("thumbs-o-up"),
+                    blog_likes_path(@blog),
+                    class: "big-icon", title: "Like", method: :post %>
       <% end %>
     <% end %>
     <%= @blog.likes.count %>
@@ -74,11 +79,8 @@
 
     <h2>New Commnet</h2>
 
-    <%= form_for [@blog, @comment] do |f| %>
-      <div class="form-group">
-        <%= f.label :body %>
-        <%= f.text_area :body, class: "form-control" %>
-      </div>
+    <%= simple_form_for [@blog, @comment] do |f| %>
+      <%= f.input :body %>
       <%= f.submit "Create Comment", class: "btn btn-primary" %>
     <% end %>
 
