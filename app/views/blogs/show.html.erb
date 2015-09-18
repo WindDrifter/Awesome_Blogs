@@ -6,6 +6,7 @@
       <p class="created"><span><i class="fa fa-clock-o"></i> Created by <a href="#"><%= @blog.user_name %></a> on <%= formatted_date(@blog.created_at) %></span></p>
       <p class="blog-comments"><%= Comment.count_comment(@blog.id) %> COMMENTS</p>
     </div>
+    <!-- <img class="img-responsive" src="" /> -->
     <div class="form-group">
       <p><%= @blog.body %></p>
     </div>
@@ -85,14 +86,42 @@
   </div>
   <div class="col-md-4">
     <div class="page-header">
-      <ul class="list-group">
-        <% @categories.each do |s| %>
-        <li class="list-group-item">
-          <span class="badge"><%= Blog.count_blog(s.id) %></span>
-          <%= link_to s.name, category_path(s)  %>
-        </li>
-        <% end %>
-      </ul>
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">New Blog</button>
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Creating a new blog</h4>
+            </div>
+            <div class="col-lg-12">
+              <div class="new-b">
+                <%= simple_form_for Blog.new , html: {class: "form-horizontal"} do |f| %>
+                  <%= f.association :category, include_blank: false %>
+                  <%= f.input :title, hint: "don't put monkey" %>
+                  <%= f.input :body, input_html: {placeholder: "Give more details here"} %>
+                  <%= f.association :tags, as: :check_boxes %>
+                  <%= f.input :image %>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <%= f.submit class: "btn btn-primary", data: {disable_with: "saving.."} %>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+        <ul class="list-group">
+          <% @categories.each do |s| %>
+          <li class="list-group-item">
+            <span class="badge"><%= Blog.count_blog(s.id) %></span>
+            <%= link_to s.name, category_path(s)  %>
+          </li>
+          <% end %>
+        </ul>
     </div>
   </div>
 </div>

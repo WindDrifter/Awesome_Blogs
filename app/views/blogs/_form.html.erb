@@ -1,5 +1,5 @@
 
-<%= simple_form_for (@blog || Blog.new) , html: {class: "form-horizontal", multipart: true} do |f| %>
+<%= simple_form_for (@blog || Blog.new) , html: {class: "form-horizontal"} do |f| %>
   <%= f.association :category, include_blank: false %>
   <%= f.input :title, hint: "don't put monkey" %>
   <%= f.input :body, input_html: {placeholder: "Give more details here"} %>
