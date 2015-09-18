@@ -112,6 +112,7 @@ GEM
     parallax-rails (1.0.0)
     pg (0.18.3)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -205,6 +206,7 @@ DEPENDENCIES
   letter_opener
   parallax-rails
   pg
+  rack-cors
   rails (= 4.2.3)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

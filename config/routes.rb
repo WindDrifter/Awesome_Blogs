@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     resources :votes, only: [:create, :update, :destroy]
   end
 
+  resources :categories, only: [:show]
+
   root 'home#index'
 
 end

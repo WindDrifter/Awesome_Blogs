@@ -57,6 +57,11 @@ class Blog < ActiveRecord::Base
   def votes_count
     votes.select {|v| v.up? }.count - votes.select {|v| v.down? }.count
   end
+
+  def self.count_blog(category_id)
+    where(category_id: category_id).count
+  end
+
   private
 
     def no_monkey

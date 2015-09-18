@@ -17,3 +17,22 @@
 .navbar {
   margin-bottom: 0;
 }
+
+footer {
+    padding: 25px 20px;
+    background-color: #222222;
+    color: white;
+}
+
+.created {
+  float: left;
+}
+
+.blog-comments {
+  text-align: right;
+}
+
+/*@media (min-width: 992px)
+.col-md-4 {
+    width: 33.33333333%;
+}*/

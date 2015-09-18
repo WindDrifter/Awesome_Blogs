@@ -10,6 +10,10 @@ def self.latest_first
   order("created_at DESC")
 end
 
+def self.count_comment(blog_id)
+  where(blog_id: blog_id).count
+end
+
 def user_name
    if user
      user.full_name

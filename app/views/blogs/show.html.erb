@@ -1,94 +1,109 @@
 
 <div class="container">
-  <div class="form-group">
-    <h1><%= @blog.title %></h1>
-  </div>
-  <div class="form-group">
-    <p><%= @blog.body %></p>
-  </div>
-  <!-- category_name is a method defined in the blog.rb to get the Category name of each blog-->
-  <p>Category: <%= @blog.category_name %></p>
-  <p>Created by <%= @blog.user_name %> on
-                <%= formatted_date(@blog.created_at) %></p>
-  <p>Tags: <%= @blog.tags.map {|x| x.name }.join(", ") %></p>
-  <!-- formatted_date is a method created in the ApplicationHelper for reformatting the date -->
-  <% if can? :edit, @blog %>
-    <%= link_to "Edit", edit_blog_path(@blog), class: "btn btn-info" %>
-  <% end %>
-  <% if can? :destroy, @blog %>
-    <%= link_to "Delete", blog_path(@blog), method: :delete, data: {confirm: "Are you use you want to delete this post?"}, class: "btn btn-danger" %>
-  <% end %>
-  <% if user_signed_in? %>
-    <% if current_user.liked_blog?(@blog) %>
-      <%= link_to fa_icon("thumbs-up"), blog_like_path(@blog, @like), class: "big-icon", title: "Un-Like", method: :delete %>
-    <% else %>
-      <%= link_to fa_icon("thumbs-o-up"), blog_likes_path(@blog), class: "big-icon", title: "Like", method: :post %>
-    <% end %>
-  <% end %>
-  <%= @blog.likes.count %>
-
-  <% if user_signed_in? %>
-    <% if current_user.favourited_blog?(@blog) %>
-      <%= link_to fa_icon("star"), blog_favourite_path(@blog, @favourite), class: "big-icon", title: "Un-Favourite", method: :delete %>
-    <% else %>
-      <%= link_to fa_icon("star-o"), blog_favourites_path(@blog), class: "big-icon", title: "Favourite", method: :post %>
-    <% end %>
-  <% end %>
-  (<%= @blog.favourites.count %>)
-
-  <% if user_signed_in? %>
-    <% if current_user_vote.nil? %>
-      <%= link_to fa_icon("chevron-up"),
-                  blog_votes_path(@blog, {vote: {up: true}}),
-                  class: "big-icon",
-                  method: :post %>
-      <%= link_to fa_icon("chevron-down"),
-                  blog_votes_path(@blog, {vote: {up: false}}),
-                  class: "big-icon",
-                  method: :post %>
-   <% elsif current_user_vote.up? %>
-      <%# user has voted up %>
-      <%= link_to fa_icon("chevron-circle-up"),
-                  blog_vote_path(@blog, current_user_vote),
-                  method: :delete,
-                  class: "big-icon" %>
-      <%= link_to fa_icon("chevron-down"),
-                  blog_vote_path(@blog, current_user_vote, {vote: {up: false}}),
-                  method: :patch,
-                  class: "big-icon" %>
-  <% else %>
-      <%# user has voted down %>
-      <%= link_to fa_icon("chevron-up"),
-                  blog_vote_path(@blog, current_user_vote, {vote: {up: true}}),
-                  method: :patch,
-                  class: "big-icon" %>
-      <%= link_to fa_icon("chevron-circle-down"),
-                  blog_vote_path(@blog, current_user_vote),
-                  method: :delete,
-                  class: "big-icon" %>
-  <% end %>
-  (<%= @blog.votes_count %>)
-  <% end %>
-
-  <h2>New Commnet</h2>
-
-  <%= form_for [@blog, @comment] do |f| %>
+  <div class="col-lg-8">
+    <div class="page-header">
+      <h1><%= @blog.title %></h1>
+      <p class="created"><span><i class="fa fa-clock-o"></i> Created by <a href="#"><%= @blog.user_name %></a> on <%= formatted_date(@blog.created_at) %></span></p>
+      <p class="blog-comments"><%= Comment.count_comment(@blog.id) %> COMMENTS</p>
+    </div>
     <div class="form-group">
-      <%= f.label :body %>
-      <%= f.text_area :body, class: "form-control" %>
+      <p><%= @blog.body %></p>
     </div>
-    <%= f.submit "Create Comment", class: "btn btn-primary" %>
-  <% end %>
+    <!-- category_name is a method defined in the blog.rb to get the Category name of each blog-->
+    <p>Category: <%= @blog.category_name %></p>
 
-  <h2>Comments</h2>
-  <% @blog.comments.each do |comment| %>
-    <div class="well">
-        <%= comment.body %>
-        <%= link_to "Delete", blog_comment_path(@blog, comment), method: :delete,
-                    class: "btn btn-sm btn-danger",
-                    data: {confirm: "Are you sure?"} %>
-        <p>Created by <%= comment.user_name %> on
-                          <%= formatted_date(comment.created_at) %></p>
+    <p>Tags: <%= @blog.tags.map {|x| x.name }.join(", ") %></p>
+    <!-- formatted_date is a method created in the ApplicationHelper for reformatting the date -->
+    <% if can? :edit, @blog %>
+      <%= link_to "Edit", edit_blog_path(@blog), class: "btn btn-info" %>
+    <% end %>
+    <% if can? :destroy, @blog %>
+      <%= link_to "Delete", blog_path(@blog), method: :delete, data: {confirm: "Are you use you want to delete this post?"}, class: "btn btn-danger" %>
+    <% end %>
+    <% if user_signed_in? %>
+      <% if current_user.liked_blog?(@blog) %>
+        <%= link_to fa_icon("thumbs-up"), blog_like_path(@blog, @like), class: "big-icon", title: "Un-Like", method: :delete %>
+      <% else %>
+        <%= link_to fa_icon("thumbs-o-up"), blog_likes_path(@blog), class: "big-icon", title: "Like", method: :post %>
+      <% end %>
+    <% end %>
+    <%= @blog.likes.count %>
+
+    <% if user_signed_in? %>
+      <% if current_user.favourited_blog?(@blog) %>
+        <%= link_to fa_icon("star"), blog_favourite_path(@blog, @favourite), class: "big-icon", title: "Un-Favourite", method: :delete %>
+      <% else %>
+        <%= link_to fa_icon("star-o"), blog_favourites_path(@blog), class: "big-icon", title: "Favourite", method: :post %>
+      <% end %>
+    <% end %>
+    (<%= @blog.favourites.count %>)
+
+    <% if user_signed_in? %>
+      <% if current_user_vote.nil? %>
+        <%= link_to fa_icon("chevron-up"),
+                    blog_votes_path(@blog, {vote: {up: true}}),
+                    class: "big-icon",
+                    method: :post %>
+        <%= link_to fa_icon("chevron-down"),
+                    blog_votes_path(@blog, {vote: {up: false}}),
+                    class: "big-icon",
+                    method: :post %>
+     <% elsif current_user_vote.up? %>
+        <%# user has voted up %>
+        <%= link_to fa_icon("chevron-circle-up"),
+                    blog_vote_path(@blog, current_user_vote),
+                    method: :delete,
+                    class: "big-icon" %>
+        <%= link_to fa_icon("chevron-down"),
+                    blog_vote_path(@blog, current_user_vote, {vote: {up: false}}),
+                    method: :patch,
+                    class: "big-icon" %>
+    <% else %>
+        <%# user has voted down %>
+        <%= link_to fa_icon("chevron-up"),
+                    blog_vote_path(@blog, current_user_vote, {vote: {up: true}}),
+                    method: :patch,
+                    class: "big-icon" %>
+        <%= link_to fa_icon("chevron-circle-down"),
+                    blog_vote_path(@blog, current_user_vote),
+                    method: :delete,
+                    class: "big-icon" %>
+    <% end %>
+    (<%= @blog.votes_count %>)
+    <% end %>
+
+    <h2>New Commnet</h2>
+
+    <%= form_for [@blog, @comment] do |f| %>
+      <div class="form-group">
+        <%= f.label :body %>
+        <%= f.text_area :body, class: "form-control" %>
+      </div>
+      <%= f.submit "Create Comment", class: "btn btn-primary" %>
+    <% end %>
+
+    <h2>Comments</h2>
+    <% @blog.comments.each do |comment| %>
+      <div class="well">
+          <%= comment.body %>
+          <%= link_to "Delete", blog_comment_path(@blog, comment), method: :delete,
+                      class: "btn btn-sm btn-danger",
+                      data: {confirm: "Are you sure?"} %>
+          <p>Created by <%= comment.user_name %> on
+                            <%= formatted_date(comment.created_at) %></p>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <div class="page-header">
+      <ul class="list-group">
+        <% @categories.each do |s| %>
+        <li class="list-group-item">
+          <span class="badge"><%= Blog.count_blog(s.id) %></span>
+          <%= link_to s.name, category_path(s)  %>
+        </li>
+        <% end %>
+      </ul>
     </div>
-  <% end %>
+  </div>
 </div>

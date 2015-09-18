@@ -4,7 +4,10 @@ class Category < ActiveRecord::Base
   # have the category_id in the questions table record become null instead
   # deleting the questions
   has_many :blogs, dependent: :nullify
-  
+
 
   validates :name, presence: true, uniqueness:true
+
+  
+
 end
