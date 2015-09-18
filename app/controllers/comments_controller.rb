@@ -14,8 +14,10 @@ class CommentsController < ApplicationController
         format.html { redirect_to blog_path(@blog), notice: "Comment Created!" }
         format.js   { render :create_success }
       else
-        flash[:alert] = "Comment wasn't created"
-        format.html { render "/blogs/show" }
+        format.html do
+          flash[:alert] = "Comment wasn't created"
+          render "/blogs/show"
+        end
         format.js   { render js: "alert(\"answer didn't save correctly!\");" }
       end
     end
@@ -25,7 +27,10 @@ class CommentsController < ApplicationController
     @blog = Blog.friendly.find params[:blog_id]
     @comment = Comment.find params[:id]
     @comment.destroy
-    redirect_to blog_path(@blog), notice: "Comment deleted."
+    respond_to do |format|
+      format.html { redirect_to blog_path(@blog), notice: "Comment deleted." }
+      format.js   { render }
+    end
   end
 
   # def edit

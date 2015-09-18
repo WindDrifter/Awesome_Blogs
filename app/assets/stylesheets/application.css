@@ -32,6 +32,9 @@ footer {
   text-align: right;
 }
 
+.ed-de {
+  float: left;
+}
 /*@media (min-width: 992px)
 .col-md-4 {
     width: 33.33333333%;

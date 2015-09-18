@@ -2,7 +2,8 @@
       <%= com.body %>
       <%= link_to "Delete", blog_comment_path(@blog, com), method: :delete,
                   class: "btn btn-sm btn-danger",
-                  data: {confirm: "Are you sure?"} %>
+                  data: {confirm: "Are you sure?"},
+                  remote: true %>
       <p>Created by <%= com.user_name %> on
                         <%= formatted_date(com.created_at) %></p>
   </div>

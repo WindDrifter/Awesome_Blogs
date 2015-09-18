@@ -7,21 +7,29 @@ class LikesController < ApplicationController
     like      = Like.new
     like.user = current_user
     like.blog = blog
-    if like.save
-      redirect_to blog, notice: "Liked!"
-    else
-      redirect_to blog, alert: "Can't like"
+    respond_to do |format|
+      if like.save
+        format.html { redirect_to blog, notice: "Liked!" }
+        format.js   { render }
+      else
+        format.html { redirect_to blog, alert: "Can't like" }
+
+      end
     end
   end
 
   def destroy
     like = Like.find params[:id]
-    if can? :destroy, like
-      blog = Blog.find params[:blog_id]
-      like.destroy
-      redirect_to blog_path(blog), notice: "Un-liked"
-    else
-      redirect_to root_path, alert: "Access denied"
+    respond_to do |format|
+      if can? :destroy, like
+        blog = Blog.find params[:blog_id]
+        like.destroy
+        format.html { redirect_to blog_path(blog), notice: "Un-liked" }
+        format.js   { render }
+      else
+        format.html { redirect_to root_path, alert: "Access denied" }
+        format.js   { render }
+      end
     end
   end
 

@@ -1,0 +1,8 @@
+<%# @comment (not persisted)    -> URL: comments_path         (CREATE) %>
+<%# @comment (persisted (in DB) -> URL: comment_path(@comment) (UPDATE) %>
+<%#= form_for @comment, url: blog_comments_path(@blog) do |f| %>
+
+<%= simple_form_for [@blog, @comment], remote: true do |f| %>
+  <%= f.input :body %>
+  <%= f.submit "Create Comment", class: "btn btn-primary" %>
+<% end %>

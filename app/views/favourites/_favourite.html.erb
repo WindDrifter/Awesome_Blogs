@@ -1,0 +1,18 @@
+<div id="favourite">
+  <% if user_signed_in? %>
+    <% if current_user.favourited_blog?(@blog) %>
+      <%= link_to fa_icon("star"),
+                  blog_favourite_path(@blog, @favourite),
+                  class: "big-icon", title: "Un-Favourite",
+                  method: :delete,
+                  remote: true %>
+    <% else %>
+      <%= link_to fa_icon("star-o"),
+                  blog_favourites_path(@blog),
+                  class: "big-icon", title: "Favourite",
+                  method: :post,
+                  remote: true %>
+    <% end %>
+  <% end %>
+  (<%= @blog.favourites.count %>)
+</div>

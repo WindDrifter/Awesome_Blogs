@@ -1,2 +1,9 @@
 $(".comments").prepend("<%= j render 'comment', com: @comment %>");
-$("#comment_body").val("");
+// $("#comment_body").val("");
+
+<%# we need to re-instantiate the @comment variable in here becuase the @comment
+    variable references a record that has already been created in the database
+    so the form will use PATCH and submit to the update action. We want the
+    form to submit to the create action %>
+<% @comment = Comment.new %>
+$("#new_comment").replaceWith("<%= j render 'form' %>");

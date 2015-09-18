@@ -1,0 +1,14 @@
+<div id="like">
+  <% if user_signed_in? %>
+    <% if current_user.liked_blog?(@blog) %>
+      <%= link_to fa_icon("thumbs-up"),
+                  blog_like_path(@blog, @like),
+                  class: "big-icon", title: "Un-Like", method: :delete %>
+    <% else %>
+      <%= link_to fa_icon("thumbs-o-up"),
+                  blog_likes_path(@blog),
+                  class: "big-icon", title: "Like", method: :post %>
+    <% end %>
+  <% end %>
+  <%= @blog.likes.count %>
+</div>
