@@ -8,13 +8,17 @@ class CommentsController < ApplicationController
     @comment          = Comment.new comment_params
     @comment.blog     = @blog
     @comment.user     = current_user
+    respond_to do |format|
       if @comment.save
         CommentsMailer.delay(run_at: 5.minutes.from_now).notify_blog_owner(@comment)
-        redirect_to blog_path(@blog), notice: "Comment Created!"
+        format.html { redirect_to blog_path(@blog), notice: "Comment Created!" }
+        format.js   { render :create_success }
       else
         flash[:alert] = "Comment wasn't created"
-        render "/blogs/show"
+        format.html { render "/blogs/show" }
+        format.js   { render js: "alert(\"answer didn't save correctly!\");" }
       end
+    end
   end
 
   def destroy

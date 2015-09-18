@@ -42,12 +42,14 @@ class BlogsController < ApplicationController
 
   def show
     @categories = Category.all
-
-    # @categories = @blog
     @blog       = Blog.friendly.find params[:id]
-    @comment    = Comment.new
-    @like       = @blog.likes.find_by_user_id(current_user.id) if user_signed_in?
-    @favourite  = @blog.favourites.find_by_user_id(current_user.id) if user_signed_in?
+    respond_to do |format|
+      @comment    = Comment.new
+      @like       = @blog.likes.find_by_user_id(current_user.id) if user_signed_in?
+      @favourite  = @blog.favourites.find_by_user_id(current_user.id) if user_signed_in?
+      format.html { render }
+      format.json { render json: @blog }
+    end
   end
 
   def index

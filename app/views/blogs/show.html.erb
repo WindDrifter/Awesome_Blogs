@@ -79,22 +79,17 @@
 
     <h2>New Commnet</h2>
 
-    <%= simple_form_for [@blog, @comment] do |f| %>
+    <%= simple_form_for [@blog, @comment], remote: true do |f| %>
       <%= f.input :body %>
       <%= f.submit "Create Comment", class: "btn btn-primary" %>
     <% end %>
 
     <h2>Comments</h2>
-    <% @blog.comments.each do |comment| %>
-      <div class="well">
-          <%= comment.body %>
-          <%= link_to "Delete", blog_comment_path(@blog, comment), method: :delete,
-                      class: "btn btn-sm btn-danger",
-                      data: {confirm: "Are you sure?"} %>
-          <p>Created by <%= comment.user_name %> on
-                            <%= formatted_date(comment.created_at) %></p>
-      </div>
-    <% end %>
+    <div class="comments">
+      <% @blog.comments.latest_first.each do |com| %>
+        <%= render "/comments/comment", com: com %>
+      <% end %>
+    </div>
   </div>
   <div class="col-md-4">
     <div class="page-header">
