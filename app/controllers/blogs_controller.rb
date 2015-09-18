@@ -13,12 +13,12 @@ class BlogsController < ApplicationController
   def create
     @blog = Blog.new blog_params
     @blog.user = current_user
-      if @blog.save
-        redirect_to blog_path(@blog), notice: "Blog Successfully created!"
-      else
-        flash[:alert] = "See error(s) below..."
-        render "/blogs/show"
-      end
+    if @blog.save
+      redirect_to blog_path(@blog), notice: "Blog Successfully created!"
+    else
+      flash[:alert] = "See error(s) below..."
+      render "/blogs/show"
+    end
   end
 
   def edit
@@ -26,7 +26,7 @@ class BlogsController < ApplicationController
   end
 
   def update
-    @blog.slug = nil
+    # @blog.slug = nil
     @blog  = Blog.friendly.find params[:id]
     if @blog.update blog_params
       redirect_to blog_path(@blog), notice: "Blog Successfully updated!"
@@ -67,7 +67,7 @@ class BlogsController < ApplicationController
   end
 
   def blog_params
-    params.require(:blog).permit([:title, :body,
+    params.require(:blog).permit([:title, :body, :image,
                                  {tag_ids: []},
                                  :category_id, :created_at])
   end

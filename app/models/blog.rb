@@ -3,6 +3,8 @@ class Blog < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
+
+  mount_uploader :image, ImageUploader
   #  has_many :comments assumes that you have a model Comment that has a reference
 # to theis model (Blog) called blog_id (Integer)
 # the dependent option is needed because we've added a foreign key Contraint
@@ -12,6 +14,7 @@ class Blog < ActiveRecord::Base
 #             deleting the blog
 # :nullify -> will make comments_id field null in the database before deleting
 #             the blog
+
 
   has_many :comments, dependent: :destroy
 

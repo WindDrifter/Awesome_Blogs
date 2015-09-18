@@ -13,7 +13,11 @@
     <p>Category: <%= @blog.category_name %></p>
 
     <p>Tags: <%= @blog.tags.map {|x| x.name }.join(", ") %></p>
-    <!-- formatted_date is a method created in the ApplicationHelper for reformatting the date -->
+
+    <% if @blog.image.present? %>
+      <%= image_tag @blog.image.url(:medium) %>
+    <% end %>
+
     <div class="ed-de">
       <% if can? :edit, @blog %>
         <%= link_to "Edit", edit_blog_path(@blog), class: "btn btn-info" %>

@@ -1,9 +1,10 @@
 
-<%= simple_form_for (@blog || Blog.new) , html: {class: "form-horizontal"} do |f| %>
+<%= simple_form_for (@blog || Blog.new) , html: {class: "form-horizontal", multipart: true} do |f| %>
   <%= f.association :category, include_blank: false %>
   <%= f.input :title, hint: "don't put monkey" %>
   <%= f.input :body, input_html: {placeholder: "Give more details here"} %>
   <%= f.association :tags, as: :check_boxes %>
+  <%= f.input :image %>
   <div class="form-group">
     <%= f.submit class: "btn btn-primary", data: {disable_with: "saving.."} %>
   </div>
